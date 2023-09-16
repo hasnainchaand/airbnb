@@ -212,7 +212,7 @@ function Navbar() {
       if (wrapperRef.current && !wrapperRef.current.contains(event.target)) {
         setNavbar(true);
         setCurrentActiveTab('');
-        console.log("close Navbar!", setNavbar);
+        console.log("close Navbar!", wrapperRef);
       }
     }
     // Bind the event listener
@@ -226,7 +226,7 @@ function Navbar() {
   return (
     <>
     
-      <div className="px-4 bg-white d-md-block d-none px-0 border-bottom">
+      <div ref={wrapperRef} className="px-4 bg-white d-md-block d-none px-0 border-bottom">
         <div className="py-3 px-md-4 d-flex align-items-center">
           <Col lg={4} md={1} className="my-1 my-md-0">
             <span
@@ -240,7 +240,6 @@ function Navbar() {
 
           {navbar ? (
             <Col
-            ref={wrapperRef}
               lg={4}
               md={6}
               className={`my-1 my-md-0 ${navbar ? "" : "transition-itr show"}`}
@@ -271,7 +270,6 @@ function Navbar() {
             </Col>
           ) : (
             <Col
-            ref={wrapperRef}
               lg={4}
               md={6}
               className={`my-1 my-md-0 ${navbar ? "" : "transition-itr show"}`}
@@ -473,15 +471,13 @@ function Navbar() {
         )}
 
         {navbar ? null : (
-          <div className="custom-bg">
+          // <div className="custom-bg">
             <TabContent
               activeTab={currentActiveTab}
               className="d-flex justify-content-center align-items-center"
             >
               {showTab1 === true || showTab2 === false ? (
                 <TabPane tabId="1" className="custom-tab1">
-                  <Row>
-                    <Col sm="12">
                       <Card
                         className="bg-white p-4 pb-lg-4 pb-md-0 overflow-auto"
                         style={{ height: "410px" }}
@@ -512,8 +508,6 @@ function Navbar() {
                           })}
                         </Row>
                       </Card>
-                    </Col>
-                  </Row>
                 </TabPane>
               ) : (
                 <TabPane tabId="1" className="custom-subTab1">
@@ -555,7 +549,7 @@ function Navbar() {
               )}
 
               <TabPane tabId="2">
-                <Row>
+                <div className="custom-tab2">
                   <Col sm="12">
                     <Card
                       body
@@ -572,10 +566,10 @@ function Navbar() {
                       />
                     </Card>
                   </Col>
-                </Row>
+                </div>
               </TabPane>
               <TabPane tabId="3">
-                <Row>
+                <div className="custom-tab2">
                   <Card
                     body
                     className="bg-white overflow-auto"
@@ -590,7 +584,7 @@ function Navbar() {
                       direction="horizontal"
                     />
                   </Card>
-                </Row>
+                </div>
               </TabPane>
               <TabPane tabId="4" className="custom-tab4">
                 <Row>
@@ -763,7 +757,7 @@ function Navbar() {
                 </Row>
               </TabPane>
             </TabContent>
-          </div>
+          // </div>
         )}
 
         {/* Tab - -End */}
