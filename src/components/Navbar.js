@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Button, Card, Col, Container, Input, Row } from "reactstrap";
+import { Button, Card, Col, Input, Row } from "reactstrap";
 import { TabContent, TabPane, Nav, NavItem, NavLink } from "reactstrap";
 import classnames from "classnames";
 import {
@@ -10,7 +10,6 @@ import {
   FaMinus,
   FaPlus,
   FaSistrix,
-  FaSliders,
   FaXmark,
 } from "react-icons/fa6";
 import { addDays } from "date-fns";
@@ -18,6 +17,9 @@ import { DateRangePicker } from "react-date-range";
 import location from "../assests/location-icon.png";
 import { countriesList } from "./CountriesList";
 import { SelectedLocation } from "./SelectedLocation";
+import Home from "./Home";
+import MobileNavbar from "./MobileNavbar";
+import Footer from "./Footer";
 
 function Navbar() {
   const [showTab1, setshowTab1] = useState(true);
@@ -205,6 +207,7 @@ function Navbar() {
     },
   ]);
 
+//  Hide the overlay
   const wrapperRef = useRef(null);
   useEffect(() => {
 
@@ -212,7 +215,7 @@ function Navbar() {
       if (wrapperRef.current && !wrapperRef.current.contains(event.target)) {
         setNavbar(true);
         setCurrentActiveTab('');
-        console.log("close Navbar!", wrapperRef);
+        // console.log("close Navbar!", wrapperRef);
       }
     }
     // Bind the event listener
@@ -225,9 +228,11 @@ function Navbar() {
 
   return (
     <>
-    
-      <div ref={wrapperRef} className="px-4 bg-white d-md-block d-none px-0 border-bottom">
-        <div className="py-3 px-md-4 d-flex align-items-center">
+
+      <div className={`${navbar ? '' : 'custom-bg'}`}>
+      <div ref={wrapperRef} className="py-3 px-2 bg-white d-md-block d-none border-bottom">
+
+        <Row className="mx-md-3 mx-1 d-flex align-items-center">
           <Col lg={4} md={1} className="my-1 my-md-0">
             <span
               className="d-flex color-primary fw-bold fs-4 justify-content-md-start justify-content-center"
@@ -246,19 +251,19 @@ function Navbar() {
             >
               <div className="custom-main-border rounded-pill d-flex flex-nowrap justify-content-between align-items-center py-1 px-3">
                 <p
-                  className=" border-0 text-dark fcw-medium text-truncate"
+                  className="px-lg-2 border-0 text-dark fcw-medium text-truncate"
                   onClick={toggleShowLocation}
                 >
                   Anywhere
                 </p>
                 <p
-                  className=" text-dark fcw-medium custom-btn-border text-truncate px-4"
+                  className="px-lg-3 text-dark fcw-medium custom-btn-border text-truncate px-4"
                   onClick={toggleShowDate}
                 >
                   Any week
                 </p>
                 <p
-                  className=" border-0 text-secondary fcw-medium text-truncate"
+                  className="px-lg-2 border-0 text-secondary fcw-medium text-truncate"
                   onClick={toggleGuests}
                 >
                   Add guests
@@ -276,7 +281,7 @@ function Navbar() {
             >
               <div className="text-center  d-flex flex-nowrap justify-content-center align-items-center py-1">
                 <p
-                  className={`mx-3 text-dark fcw-normal menuitem text-truncate ${
+                  className={`mx-md-3 mx-1 text-dark fcw-normal menuitem text-truncate ${
                     subcoreStay ? "active" : ""
                   }`}
                   onClick={toggleStay}
@@ -284,7 +289,7 @@ function Navbar() {
                   Stays
                 </p>
                 <p
-                  className={`mx-3 text-dark fcw-normal menuitem text-truncate ${
+                  className={`mx-md-3 mx-1 text-dark fcw-normal menuitem text-truncate ${
                     subcoreExperience ? "active" : ""
                   }`}
                   onClick={toggleExperience}
@@ -292,7 +297,7 @@ function Navbar() {
                   Experiences
                 </p>
                 <p
-                  className={`mx-3 text-dark fcw-normal menuitem text-truncate`}
+                  className={`mx-md-3 mx-1 text-dark fcw-normal menuitem text-truncate`}
                 >
                   Online Experiences
                 </p>
@@ -321,9 +326,10 @@ function Navbar() {
               </div>
             </div>
           </Col>
-        </div>
+        </Row>
 
         {/* Tab --Start */}
+
         {navbar ? null : (
             <Row className="custom-main-border rounded-pill mb-2 d-flex justify-content-center align-items-center m-auto custom-width-100 main-submenu">
             <Nav tabs className="border-0 pe-0 ">
@@ -471,7 +477,6 @@ function Navbar() {
         )}
 
         {navbar ? null : (
-          // <div className="custom-bg">
             <TabContent
               activeTab={currentActiveTab}
               className="d-flex justify-content-center align-items-center"
@@ -486,7 +491,7 @@ function Navbar() {
                           Search by region
                         </p>
                         <Row className="d-flex justify-content-center align-items-center py-3">
-                          {SelectedLocation.map((item, id) => {
+                          {SelectedLocation?.map((item, id) => {
                             return (
                               <Col key={id} xs={4} className="py-3">
                                 <a
@@ -518,7 +523,7 @@ function Navbar() {
                         className="bg-white py-4 px-0 pb-lg-4 pb-md-0 overflow-auto"
                         style={{ height: "360px" }}
                       >
-                        {filtercountries.map((country, index) => {
+                        {filtercountries?.map((country, index) => {
                           return (
                             <a
                               key={index}
@@ -757,32 +762,47 @@ function Navbar() {
                 </Row>
               </TabPane>
             </TabContent>
-          // </div>
         )}
 
         {/* Tab - -End */}
+
       </div>
 
-      <div className="mx-2 d-md-none d-block">
-        <Row className="my-2 mx-1 d-flex justify-content-center align-items-center">
-          <Col className="custom-main-border rounded-pill d-flex justify-content-center align-items-center py-1 px-3">
-            <p className="mb-0 rounded-custom-pill text-dark fs-5">
-              <FaSistrix className="my-1" />
-            </p>
-            <div className="d-flex justify-content-start flex-column align-items-center px-3">
-              <p className="mb-0 text-dark fcw-medium py-0">
-                Anywhere
-                <br />
-                <span className="text-secondary text-truncate">
-                  Any week . Add guests
-                </span>
-              </p>
-            </div>
-            <Button className="bg-transparent rounded-custom-pill border-1 border-dark text-dark fs-6">
-              <FaSliders height={12} width={12} className="my-1" />
-            </Button>
-          </Col>
-        </Row>
+          {/* Mobile Screen Navbar -- Start */}
+
+          <MobileNavbar
+                     state={state}
+                     setState={setState}
+                     disableAdult={disableAdult}
+                     setDisableAdult={setDisableAdult}
+                     adultcounter={adultcounter}
+                     AdultIncrement={AdultIncrement}
+                     AdultDecrement={AdultDecrement}
+                     childcounter={childcounter}
+                     ChildIncrement={ChildIncrement}
+                     ChildDecrement={ChildDecrement}
+                     infantcounter={infantcounter}
+                     InfantIncrement={InfantIncrement}
+                     InfantDecrement={InfantDecrement}
+                     petcounter={petcounter}
+                     PetIncrement={PetIncrement}
+                     PetDecrement={PetDecrement}
+                     handleSelectedLocation={handleSelectedLocation}
+                     inputvalue={inputvalue}
+                     handleInputCountries={handleInputCountries}
+                     location={location}
+                     filtercountries={filtercountries}
+                     handleSelectInputCountry={handleSelectInputCountry}
+                     setInputValue={setInputValue}
+          />
+
+          {/* Mobile Screen Navbar -- End */}
+
+        {/* Home Screen Content */}
+      <Home navbar={navbar}/>
+
+      <Footer/>
+
       </div>
 
     </>

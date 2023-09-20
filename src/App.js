@@ -1,5 +1,5 @@
 import './App.css';
-import Home from './components/Home';
+import Footer from './components/Footer';
 import Navbar from './components/Navbar';
 import 'react-date-range/dist/styles.css';
 import 'react-date-range/dist/theme/default.css';
@@ -10,7 +10,6 @@ function App() {
     <>
 
         <Navbar/>
-        <Home/>
 
     </>
   );

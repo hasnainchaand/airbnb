@@ -1,5 +1,5 @@
-import React from 'react';
-import { Card, CardBody, CardSubtitle, CardTitle, Col, Row } from "reactstrap";
+import React, { useState } from 'react';
+import { Card, CardBody, CardSubtitle, CardTitle, Col, Container, Row } from "reactstrap";
 import { FaStar } from "react-icons/fa6";
 import { HomeCardList } from './HomeCardList';
 // Import Swiper React components
@@ -13,12 +13,14 @@ import 'swiper/css/pagination';
 // import required modules
 import { Navigation, Pagination, Mousewheel, Keyboard } from 'swiper/modules';
 
-function Home() {
+function Home({navbar}) {
 
   return (
     <>
-      <div className="bg-white p-4 px-5 custom-bg-Home">
-        <Row>
+
+      <div className={`${navbar ? '' : 'custom-bg-Home'}`} style={{cursor: 'pointer'}}>
+        <Container className='bg-white py-4' fluid>
+        <Row className='mx-md-3 mx-1'>
           {HomeCardList.map((item, index)=>{
             return(
               <Col key={index} lg={3} md={4} className='my-1'>
@@ -48,7 +50,9 @@ function Home() {
             )
           })}
         </Row>
+        </Container>
       </div>
+
     </>
   );
 }
