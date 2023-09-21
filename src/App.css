@@ -354,6 +354,12 @@ a{
 }
 /* Mobile Navbar -- End */
 
+/* Swiper Slider */
+.swiper-button-prev.swiper-button-disabled,
+.swiper-button-next.swiper-button-disabled {
+  display: none;
+}
+
 /* Home Styling -- End */
 
   @media (min-width: 768px){

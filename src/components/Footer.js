@@ -21,15 +21,15 @@ function Footer() {
           </Row>
 
           <Row>
-              <Nav tabs>
+              <Nav tabs className="overflow-auto flex-nowrap w-100">
                 {FooterTabs.map((Tab) => {
                   return (
                     <NavItem key={Tab.id} className="custom-pointer">
                       <NavLink
                         className={
                           activeTab == Tab.id
-                            ? "popular-Active fcw-600  border-0 bg-transparent"
-                            : "text-muted fcw-600 py-2 px-3 border-0 bg-transparent "
+                            ? "popular-Active fcw-600 text-truncate border-0 bg-transparent"
+                            : "text-muted fcw-600 text-truncate py-2 px-3 border-0 bg-transparent "
                         }
                         onClick={() => setActiveTab(Tab.id)}
                       >

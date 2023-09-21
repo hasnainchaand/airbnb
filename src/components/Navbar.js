@@ -206,6 +206,7 @@ function Navbar() {
       key: "selection",
     },
   ]);
+   
 
 //  Hide the overlay
   const wrapperRef = useRef(null);
@@ -800,6 +801,14 @@ function Navbar() {
 
         {/* Home Screen Content */}
       <Home navbar={navbar}/>
+
+   
+      <Row className="d-flex justify-content-center align-items-center mx-0 my-4 text-center w-100">
+        <Col className="px-2">
+          <p className="text-dark h5 text-wrap">Continue exploring national park homes</p>
+          <Button className='btn-dark '>Show More</Button>
+        </Col>
+      </Row>
 
       <Footer/>
 
