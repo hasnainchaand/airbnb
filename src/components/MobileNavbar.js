@@ -1,24 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { DateRangePicker } from "react-date-range";
-import {
-  FaMinus,
-  FaPlus,
-  FaSistrix,
-  FaSliders,
-  FaXmark,
-} from "react-icons/fa6";
-import {
-  Button,
-  Card,
-  Col,
-  Container,
-  Nav,
-  NavItem,
-  NavLink,
-  Row,
-  TabContent,
-  TabPane,
-} from "reactstrap";
+import { FaMinus, FaPlus, FaSistrix, FaSliders, FaXmark } from "react-icons/fa6";
+import { Button, Card, Col, Container, Nav, NavItem, NavLink, Row, TabContent, TabPane } from "reactstrap";
 import { SelectedLocation } from "./SelectedLocation";
 
 function MobileNavbar({
@@ -116,7 +99,7 @@ function MobileNavbar({
               </Col>
               <Col className="text-end">
                 <Button className="bg-transparent rounded-custom-pill border-1 border-secondary text-dark ">
-                  <FaSliders className="mb-1" style={{ fontSize: "15px" }} />
+                  <FaSliders className="my-1" style={{ fontSize: "15px" }} />
                 </Button>
               </Col>
             </Row>

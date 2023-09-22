@@ -1,12 +1,10 @@
-/* body {
-  background: #fff !important;
-} */
 
 :root {
     --primary-- : #ff385c;
     --secondary-- : #00000036;
     --half-secondary-- : #6c757d;
     --light-grey--: #ddd;
+    --black--: #000;
     --box-shadow--: 0 1px 2px rgba(0,0,0,0.08), 0 4px 12px rgba(0,0,0,0.05);
 }
 
@@ -29,7 +27,7 @@
   }
   .menuitem.active:after {
     width: 100%;
-    background: #000;
+    background: var(--black--);
     color: #222222;
     opacity: 1;
   }
@@ -38,7 +36,7 @@
   }
   .menuitem:hover:after {
     width: 100%;
-    background: #000;
+    background: var(--black--);
     opacity: 0.7;
   }
   .menuitem:hover {
@@ -149,14 +147,15 @@ a{
 .w-35{
     width: 35%;
 }
-.nav-tabs .nav-link {
-    margin-bottom: 0px;
-}.rdrDefinedRangesWrapper{
+
+/* React-Date-Range--Styling - Start */
+.rdrDefinedRangesWrapper{
     display: none;
 }
 .rdrDateDisplayWrapper{
     display: none;
 }
+/* React-Date-Range--Styling -End */
 
 .transition-itr {
     /* height: 50px;  */
@@ -253,7 +252,7 @@ a{
 .swiper-button-next:after {
   background-color: white;
   border-radius: 100%;
-  color: #000;
+  color: var(--black--);
   font-size: 10px !important;
   padding: 8px 10px;
 }
@@ -300,14 +299,14 @@ a{
 .nav-tabs .nav-link.popular-Active{
   border-radius: 0px !important;
   box-shadow: none !important;
-  color: #000;
-  border-bottom: 1.5px solid #000 !important;
+  color: var(--black--);
+  border-bottom: 1.5px solid var(--black--) !important;
 }
 .nav-tabs .nav-link.popular-Active:hover,
 .nav-tabs .nav-link.popular-Active:active,
 .nav-tabs .nav-link.popular-Active:focus
 {
-  border-bottom: 1.5px solid #000 !important;
+  border-bottom: 1.5px solid var(--black--) !important;
 }
 .fcs-7{
   font-size: 14px;
@@ -334,7 +333,7 @@ a{
 
 }
 .nav-tabs .nav-link.Mobile.popular-Active{
-  color: #000 !important;
+  color: var(--black--) !important;
 }
 .brd-radius{
   border-radius: 15px;
@@ -369,28 +368,28 @@ a{
         .custom-tab1{
           position: absolute;
           width: 50%;
-          top: 144px;
-          left: 4%;
+          top: 127px;
+          left: 1%;
           z-index: 2;
           }
           .custom-subTab1{
             position: absolute;
-            top: 144px;
-            left: 4%;
+            top: 127px;
+            left: 1%;
             width: 45%;
             z-index: 2;
           }
           .custom-tab2{
             position: absolute;
-            top: 144px;
+            top: 127px;
             left: 50%;
             transform: translateX(-50%);
             z-index: 2;
           }
           .custom-tab4{
             position: absolute;
-            top: 144px;
-            right: 3.5%;
+            top: 127px;
+            right: 1%;
             width: 50%;
             z-index: 2;
           }
@@ -402,28 +401,28 @@ a{
     .custom-tab1{
       position: absolute;
       width: 38%;
-      top: 144px;
-      left: 14%;
-        z-index: 2;
+      top: 127px;
+      left: 13%;
+      z-index: 2;
       }
       .custom-subTab1{
         position: absolute;
-        top: 144px;
-        left: 14%;
+        top: 127px;
+        left: 13%;
         width: 30%;
         z-index: 2;
       }
       .custom-tab2{
         position: absolute;
-        top: 144px;
+        top: 127px;
         left: 50%;
         transform: translateX(-50%);
         z-index: 2;
       }
       .custom-tab4{
         position: absolute;
-        top: 144px;
-        right: 13.5%;
+        top: 127px;
+        right: 13%;
         width: 32%;
         z-index: 2;
       }

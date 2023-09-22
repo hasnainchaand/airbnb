@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Card, CardBody, CardSubtitle, CardTitle, Col, Container, Row } from "reactstrap";
+import React, { useMemo, useState } from 'react';
+import { Button, Card, CardBody, CardSubtitle, CardTitle, Col, Container, Row } from "reactstrap";
 import { FaStar } from "react-icons/fa6";
 import { HomeCardList } from './HomeCardList';
 // Import Swiper React components
@@ -15,13 +15,34 @@ import { Navigation, Pagination, Mousewheel, Keyboard } from 'swiper/modules';
 
 function Home({navbar}) {
 
+  const [HomeCards] = useState(HomeCardList);
+  const [numberOfCardShow, setNumberOfCardsShow] = useState(8);
+  const [showMoreBtn, setShowMoreBtn] = useState(false);
+
+  const showmore = () => {
+
+    if(numberOfCardShow + 8){
+      setNumberOfCardsShow(numberOfCardShow + 8 );
+    }
+    else{
+      setNumberOfCardsShow(numberOfCardShow.length);
+      setShowMoreBtn(true);
+    }
+  }
+
+  const itemsToShow = useMemo(() => {
+      return (
+        HomeCards.slice(0, numberOfCardShow)
+        )}, [HomeCards, numberOfCardShow])
+
   return (
     <>
 
       <div className={`${navbar ? '' : 'custom-bg-Home'}`} style={{cursor: 'pointer'}}>
+        
         <Container className='bg-white py-4' fluid>
         <Row className='mx-md-3 mx-1'>
-          {HomeCardList.map((item, index)=>{
+          {itemsToShow?.map((item, index)=>{
             return(
               <Col key={index} lg={3} md={4} className='my-1'>
                 <Card className="border-0" >
@@ -50,7 +71,20 @@ function Home({navbar}) {
             )
           })}
         </Row>
+
+        <Row className="d-flex justify-content-center align-items-center mx-0 my-4 text-center w-100">
+        <Col className="px-2">
+          <p className="text-dark h5 text-wrap">Continue to exploring More Places</p>
+          {showMoreBtn === false ? 
+              <Button className='btn-dark' onClick={showmore}>{numberOfCardShow >= HomeCards.length ? 'No More Data' : 'Show More'}</Button>
+              :  null }
+            {numberOfCardShow >8 && <Button className='btn-dark mx-3' onClick={()=>setNumberOfCardsShow(8)}>Show Less</Button> }
+          
+        </Col>
+      </Row>
+
         </Container>
+        
       </div>
 
     </>

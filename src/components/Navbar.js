@@ -1,27 +1,17 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Button, Card, Col, Input, Row } from "reactstrap";
 import { TabContent, TabPane, Nav, NavItem, NavLink } from "reactstrap";
-import classnames from "classnames";
-import {
-  FaAirbnb,
-  FaBars,
-  FaCircleUser,
-  FaGlobe,
-  FaMinus,
-  FaPlus,
-  FaSistrix,
-  FaXmark,
-} from "react-icons/fa6";
+import { FaAirbnb, FaBars, FaCircleUser, FaGlobe, FaMinus, FaPlus, FaSistrix, FaXmark } from "react-icons/fa6";
 import { addDays } from "date-fns";
 import { DateRangePicker } from "react-date-range";
 import location from "../assests/location-icon.png";
 import { countriesList } from "./CountriesList";
 import { SelectedLocation } from "./SelectedLocation";
+import MobileNavbar from '../components/MobileNavbar';
 import Home from "./Home";
-import MobileNavbar from "./MobileNavbar";
-import Footer from "./Footer";
 
 function Navbar() {
+
   const [showTab1, setshowTab1] = useState(true);
   const [showTab2, setshowTab2] = useState(false);
   const [filtercountries, setFiltercountries] = useState([]);
@@ -60,7 +50,7 @@ function Navbar() {
   const handleSelectInputCountry = (country) => {
     setFiltercountries([country]);
     setshowTab2(true);
-    setCurrentActiveTab("2");
+    setActiveTab("2");
     setCrossBtn(false);
   };
 
@@ -76,7 +66,7 @@ function Navbar() {
     if (target != selecteditem) {
       setInputValue(target.countryName);
       setCrossBtn(true);
-      setCurrentActiveTab("2");
+      setActiveTab("2");
       setCrossBtn(false);
     } else {
       setInputValue("");
@@ -152,33 +142,33 @@ function Navbar() {
   const [navbar, setNavbar] = useState(true);
 
   const toggleShowLocation = () => {
+    setActiveTab("1");
     setNavbar(false);
-    setCurrentActiveTab("1");
   };
   const toggleShowDate = () => {
+    setActiveTab("2");
     setNavbar(false);
-    setCurrentActiveTab("2");
   };
   const toggleGuests = () => {
+    setActiveTab("4");
     setNavbar(false);
-    setCurrentActiveTab("4");
   };
 
   // State for current active Tab
-  const [currentActiveTab, setCurrentActiveTab] = useState("");
+  const [activeTab, setActiveTab] = useState("");
 
   // Toggle active state for Tab
   const toggle = (tab) => {
-    if (currentActiveTab !== tab) {
-      setCurrentActiveTab(tab);
+    if (activeTab !== tab) {
+      setActiveTab(tab);
       if (tab === "1" && inputvalue.length > 0) {
         setCrossBtn(true);
       } else {
         setCrossBtn(false);
       }
     } else {
-      setCurrentActiveTab("");
-      setCrossBtn(false);
+      setActiveTab("");
+      setCrossBtn(true);
     }
   };
 
@@ -188,15 +178,13 @@ function Navbar() {
   const toggleStay = () => {
     setSubcoreStay(true);
     setSubcoreExperience(false);
-    setCurrentActiveTab("");
-    setCrossBtn(false);
+    setActiveTab("");
   };
 
   const toggleExperience = () => {
     setSubcoreStay(false);
     setSubcoreExperience(true);
-    setCurrentActiveTab("");
-    setCrossBtn(false);
+    setActiveTab("");
   };
 
   const [state, setState] = useState([
@@ -206,7 +194,6 @@ function Navbar() {
       key: "selection",
     },
   ]);
-   
 
 //  Hide the overlay
   const wrapperRef = useRef(null);
@@ -215,7 +202,7 @@ function Navbar() {
     function handleClickOutside(event) {
       if (wrapperRef.current && !wrapperRef.current.contains(event.target)) {
         setNavbar(true);
-        setCurrentActiveTab('');
+        setActiveTab('');
         // console.log("close Navbar!", wrapperRef);
       }
     }
@@ -230,8 +217,8 @@ function Navbar() {
   return (
     <>
 
-      <div className={`${navbar ? '' : 'custom-bg'}`}>
-      <div ref={wrapperRef} className="py-3 px-2 bg-white d-md-block d-none border-bottom">
+      <div className={`${navbar ? '' : 'custom-bg '}`}>
+      <div ref={wrapperRef} className="pt-3 p-2 bg-white d-md-block d-none border-bottom">
 
         <Row className="mx-md-3 mx-1 d-flex align-items-center">
           <Col lg={4} md={1} className="my-1 my-md-0">
@@ -333,135 +320,65 @@ function Navbar() {
 
         {navbar ? null : (
             <Row className="custom-main-border rounded-pill mb-2 d-flex justify-content-center align-items-center m-auto custom-width-100 main-submenu">
+
             <Nav tabs className="border-0 pe-0 ">
               <NavItem className="w-35">
-                <NavLink
-                  className={classnames({ active: currentActiveTab === "1" })}
-                >
-                  <Row className="d-flex align-items-center">
+                <NavLink className={`p-0 ${activeTab == '1' ? 'active' : ''}`} onClick={() => setActiveTab('1')}>
+                  <Row className="d-flex align-items-center py-2 px-3">
                     <Col xs={10} className="active">
-                      <p
-                        className="fcw-medium text-dark text-start"
-                        onClick={() => {
-                          toggle("1");
-                        }}
-                      >
-                        Where
-                      </p>
-                      <Input
-                        type="text"
-                        bsSize="sm"
-                        className="bg-transparent border-0 p-0 text-secondary "
-                        placeholder="Search destinations"
-                        value={inputvalue}
-                        onChange={handleInputCountries}
-                      />
+                      <p className="fcw-medium text-dark text-start" onClick={() => { toggle("1"); }}> Where </p>
+                      <Input type="text" bsSize="sm" className="bg-transparent border-0 p-0 text-secondary " placeholder="Search destinations" value={inputvalue} onChange={handleInputCountries} />
                     </Col>
-                    <Col
-                      xs={2}
-                      className={`text-end ${
-                        crossBtn === true ? "d-block" : "d-none"
-                      }`}
-                      onClick={handleClearField}
-                    >
-                      <FaXmark className="bg-light-sec custom-w-h rounded-pill text-dark p-1" />
+                    {activeTab == '1' && (
+                      <Col xs={2} className={`text-end ${ crossBtn === true ? "d-block" : "d-none" }`} onClick={handleClearField}>
+                        <FaXmark className="bg-light-sec custom-w-h rounded-pill text-dark p-1" />
                     </Col>
+                      )}
                   </Row>
                 </NavLink>
               </NavItem>
 
               {subcoreStay ? (
-                <>
-                  <NavItem className="w-15">
-                    <NavLink
-                      className={classnames({
-                        active: currentActiveTab === "2",
-                      })}
-                      onClick={() => {
-                        toggle("2");
-                      }}
-                    >
-                      <Col className=" text-start ">
-                        <div className="fcw-medium text-dark text-start">
-                          Check in <br />
-                          <Input
-                            type="text"
-                            bsSize="sm"
-                            className="bg-transparent border-0 p-0 text-secondary "
-                            disabled
-                            placeholder="Add dates"
-                          />
+              <>
+              <NavItem className="w-15">
+                <NavLink className={`p-0 ${activeTab == '2' ? 'active' : ''}`} onClick={() => setActiveTab('2')}>
+                <Col className=" text-start py-2 px-3">
+                        <div className="fcw-medium text-dark text-start">Check in <br />
+                          <Input type="text" bsSize="sm" className="bg-transparent border-0 p-0 text-secondary " disabled placeholder="Add dates"/>
                         </div>
-                      </Col>
-                    </NavLink>
-                  </NavItem>
-
-                  <NavItem className="w-15">
-                    <NavLink
-                      className={classnames({
-                        active: currentActiveTab === "3",
-                      })}
-                      onClick={() => {
-                        toggle("3");
-                      }}
-                    >
-                      <Col className="text-start ">
-                        <div className=" fcw-medium text-dark text-start">
-                          Check out <br />
-                          <Input
-                            type="text"
-                            bsSize="sm"
-                            className="bg-transparent border-0 p-0 text-secondary "
-                            disabled
-                            placeholder="Add dates"
-                          />
+                </Col>
+                </NavLink>
+              </NavItem>
+              <NavItem className="w-15">
+                <NavLink className={`p-0 ${activeTab == '3' ? 'active' : ''}`} onClick={() => setActiveTab('3')}>
+                <Col className="text-start py-2 px-3">
+                        <div className=" fcw-medium text-dark text-start"> Check out <br />
+                          <Input type="text" bsSize="sm" className="bg-transparent border-0 p-0 text-secondary " disabled placeholder="Add dates"/>
                         </div>
-                      </Col>
-                    </NavLink>
-                  </NavItem>
-                </>
+                </Col>
+                </NavLink>
+              </NavItem>
+              </>
               ) : null}
 
               {!subcoreExperience ? null : (
-                <NavItem className="w-30">
-                  <NavLink
-                    className={classnames({ active: currentActiveTab === "2" })}
-                    onClick={() => {
-                      toggle("2");
-                    }}
-                  >
-                    <Col className="text-start ">
-                      <div className=" fcw-medium text-dark text-start">
-                        Date <br />
-                        <Input
-                          type="text"
-                          bsSize="sm"
-                          className="bg-transparent border-0 p-0 text-secondary "
-                          disabled
-                          placeholder="Add dates"
-                        />
+              <NavItem className="w-30">
+                <NavLink className={`p-0 ${activeTab == '2' ? 'active' : ''}`} onClick={() => setActiveTab('2')}>
+                <Col className="text-start py-2 px-3">
+                      <div className=" fcw-medium text-dark text-start"> Date <br />
+                        <Input type="text" bsSize="sm" className="bg-transparent border-0 p-0 text-secondary " disabled placeholder="Add dates" />
                       </div>
                     </Col>
-                  </NavLink>
-                </NavItem>
+                </NavLink>
+              </NavItem>
               )}
+
               <NavItem className="w-35">
-                <NavLink
-                  className={classnames({ active: currentActiveTab === "4" })}
-                  onClick={() => {
-                    toggle("4");
-                  }}
-                >
-                  <div className="d-flex justify-content-between align-items-center">
+                <NavLink className={`p-0 ${activeTab == '4' ? 'active' : ''}`} onClick={() => setActiveTab('4')}>
+                <div className="d-flex justify-content-between align-items-center py-2 px-3">
                     <Col xs={6} className="text-start">
-                      <p className="mb-0 fcw-medium text-dark">
-                        Who <br />
-                        <Input
-                          type="text"
-                          bsSize="sm"
-                          className="bg-transparent border-0 p-0 text-secondary "
-                          placeholder="Add guests"
-                        />
+                      <p className="mb-0 fcw-medium text-dark"> Who <br />
+                        <Input type="text" bsSize="sm" className="bg-transparent border-0 p-0 text-secondary " placeholder="Add guests" />
                       </p>
                     </Col>
                     <Col xs={6} className="text-end">
@@ -473,15 +390,16 @@ function Navbar() {
                   </div>
                 </NavLink>
               </NavItem>
+
             </Nav>
+            
           </Row>
         )}
 
         {navbar ? null : (
             <TabContent
-              activeTab={currentActiveTab}
-              className="d-flex justify-content-center align-items-center"
-            >
+              activeTab={activeTab}
+              className="d-flex justify-content-center align-items-center" >
               {showTab1 === true || showTab2 === false ? (
                 <TabPane tabId="1" className="custom-tab1">
                       <Card
@@ -559,8 +477,7 @@ function Navbar() {
                   <Col sm="12">
                     <Card
                       body
-                      className="bg-white overflow-auto"
-                      style={{ height: "400px" }}
+                      className="bg-white"
                     >
                       <DateRangePicker
                         onChange={(item) => setState([item.selection])}
@@ -578,9 +495,7 @@ function Navbar() {
                 <div className="custom-tab2">
                   <Card
                     body
-                    className="bg-white overflow-auto"
-                    style={{ height: "400px" }}
-                  >
+                    className="bg-white">
                     <DateRangePicker
                       onChange={(item) => setState([item.selection])}
                       showSelectionPreview={true}
@@ -768,10 +683,8 @@ function Navbar() {
         {/* Tab - -End */}
 
       </div>
-
-          {/* Mobile Screen Navbar -- Start */}
-
-          <MobileNavbar
+      
+      <MobileNavbar
                      state={state}
                      setState={setState}
                      disableAdult={disableAdult}
@@ -797,20 +710,7 @@ function Navbar() {
                      setInputValue={setInputValue}
           />
 
-          {/* Mobile Screen Navbar -- End */}
-
-        {/* Home Screen Content */}
       <Home navbar={navbar}/>
-
-   
-      <Row className="d-flex justify-content-center align-items-center mx-0 my-4 text-center w-100">
-        <Col className="px-2">
-          <p className="text-dark h5 text-wrap">Continue exploring national park homes</p>
-          <Button className='btn-dark '>Show More</Button>
-        </Col>
-      </Row>
-
-      <Footer/>
 
       </div>
 
