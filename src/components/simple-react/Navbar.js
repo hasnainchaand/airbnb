@@ -2,46 +2,21 @@ import React, { useEffect, useRef, useState } from "react";
 import { Button, Card, Col, Input, Row } from "reactstrap";
 import { TabContent, TabPane, Nav, NavItem, NavLink } from "reactstrap";
 import { FaAirbnb, FaBars, FaCircleUser, FaGlobe, FaMinus, FaPlus, FaSistrix, FaXmark } from "react-icons/fa6";
+import { addDays } from "date-fns";
 import { DateRangePicker } from "react-date-range";
 import location from "../assests/location-icon.png";
 import { countriesList } from "./CountriesList";
 import { SelectedLocation } from "./SelectedLocation";
 import MobileNavbar from '../components/MobileNavbar';
 import Home from "./Home";
-import { useDispatch, useSelector } from "react-redux";
-import { 
-  DatePicker,
-  DecrementAdultCounter,
-  DecrementChildCounter, 
-  DecrementInfantCounter, 
-  DecrementPetCounter, 
-  IncrementAdultCounter, 
-  IncrementChildCounter, 
-  IncrementInfantCounter, 
-  IncrementPetCounter,
-  ShowTab1,
-  ShowTab2,
-  FilterCountries,
-  CrossBtn,
-} from "../store/actions/Actions";
 
 function Navbar() {
-  const dispatch = useDispatch();
-  const {
-    adultcounter,
-    childcounter,
-    infantcounter,
-    petcounter,
-    disableAdult,
-    datepicker,
-    showTab1,
-    showTab2,
-    filtercountries,
-    crossbtn,
-  }  = useSelector((state) => state.increamentReducer);
 
+  const [showTab1, setshowTab1] = useState(true);
+  const [showTab2, setshowTab2] = useState(false);
+  const [filtercountries, setFiltercountries] = useState([]);
   const [inputvalue, setInputValue] = useState("");
-  // const [crossBtn, setCrossBtn] = useState(false);
+  const [crossBtn, setCrossBtn] = useState(false);
 
   const filterCountryName = (input) => {
     const filtered = countriesList.filter((country) =>
@@ -55,47 +30,112 @@ function Navbar() {
     setInputValue(value);
     if (value) {
       const filteredvalue = filterCountryName(value);
-      dispatch(FilterCountries(filteredvalue));
-      dispatch(CrossBtn(true));
+      setFiltercountries(filteredvalue);
+      setCrossBtn(true);
 
       if (filteredvalue.length === 0) {
-        dispatch(ShowTab1(false));
-        dispatch(ShowTab2(false));
+        setshowTab1(false);
+        setshowTab2(false);
       } else {
-        dispatch(ShowTab1(false));
-        dispatch(ShowTab2(true));
+        setshowTab1(false);
+        setshowTab2(true);
       }
     } else {
-      dispatch(ShowTab1(false));
-      dispatch(ShowTab2(false));
-      dispatch(FilterCountries([]));
-      dispatch(CrossBtn(false))
+      setshowTab1(false);
+      setshowTab2(false);
+      setFiltercountries();
+      setCrossBtn(false);
     }
   };
   const handleSelectInputCountry = (country) => {
-    dispatch(FilterCountries([country]));
-    dispatch(ShowTab2(true));
+    setFiltercountries([country]);
+    setshowTab2(true);
     setActiveTab("2");
-    dispatch(CrossBtn(false))
+    setCrossBtn(false);
   };
 
   const handleClearField = () => {
     setInputValue("");
-    dispatch(ShowTab1(true));
-    dispatch(ShowTab2(false));
-    dispatch(CrossBtn(false))
+    setshowTab1(true);
+    setshowTab2(false);
+    setCrossBtn(false);
   };
 
   const handleSelectedLocation = (target) => {
     const selecteditem = SelectedLocation[0];
     if (target != selecteditem) {
       setInputValue(target.countryName);
-      dispatch(CrossBtn(true))
+      setCrossBtn(true);
       setActiveTab("2");
-      dispatch(CrossBtn(false))
+      setCrossBtn(false);
     } else {
       setInputValue("");
-      dispatch(CrossBtn(false))
+      setCrossBtn(false);
+    }
+  };
+
+  const [disableAdult, setDisableAdult] = useState(false);
+
+  const [adultcounter, setAdultcounter] = useState(0);
+  const AdultIncrement = () => {
+    if (adultcounter < 16) {
+      setAdultcounter(adultcounter + 1);
+    }
+  };
+  const AdultDecrement = () => {
+    if (adultcounter > 0) {
+      setAdultcounter(adultcounter - 1);
+    }
+  };
+
+  const [childcounter, setChildcounter] = useState(0);
+  const ChildIncrement = () => {
+    if (childcounter < 15) {
+      setChildcounter(childcounter + 1);
+    }
+    if (adultcounter == 0) {
+      setAdultcounter(adultcounter + 1);
+      setDisableAdult(true);
+    }
+    setDisableAdult(false);
+  };
+  const ChildDecrement = () => {
+    if (childcounter > 0) {
+      setChildcounter(childcounter - 1);
+    }
+  };
+
+  const [infantcounter, setInfantcounter] = useState(0);
+  const InfantIncrement = () => {
+    if (infantcounter < 5) {
+      setInfantcounter(infantcounter + 1);
+    }
+    if (adultcounter == 0) {
+      setAdultcounter(adultcounter + 1);
+      setDisableAdult(true);
+    }
+    setDisableAdult(false);
+  };
+  const InfantDecrement = () => {
+    if (infantcounter > 0) {
+      setInfantcounter(infantcounter - 1);
+    }
+  };
+
+  const [petcounter, setPetcounter] = useState(0);
+  const PetIncrement = () => {
+    if (petcounter < 5) {
+      setPetcounter(petcounter + 1);
+    }
+    if (adultcounter == 0) {
+      setAdultcounter(adultcounter + 1);
+      setDisableAdult(true);
+    }
+    setDisableAdult(false);
+  };
+  const PetDecrement = () => {
+    if (petcounter > 0) {
+      setPetcounter(petcounter - 1);
     }
   };
 
@@ -122,13 +162,13 @@ function Navbar() {
     if (activeTab !== tab) {
       setActiveTab(tab);
       if (tab === "1" && inputvalue.length > 0) {
-        dispatch(CrossBtn(true))
+        setCrossBtn(true);
       } else {
-        dispatch(CrossBtn(false))
+        setCrossBtn(false);
       }
     } else {
       setActiveTab("");
-      dispatch(CrossBtn(true))
+      setCrossBtn(true);
     }
   };
 
@@ -146,6 +186,14 @@ function Navbar() {
     setSubcoreExperience(true);
     setActiveTab("");
   };
+
+  const [state, setState] = useState([
+    {
+      startDate: new Date(),
+      endDate: addDays(new Date(), 2),
+      key: "selection",
+    },
+  ]);
 
 //  Hide the overlay
   const wrapperRef = useRef(null);
@@ -204,8 +252,7 @@ function Navbar() {
                 </p>
                 <p
                   className="px-lg-2 border-0 text-secondary fcw-medium text-truncate"
-                onClick={toggleGuests}
-                  
+                  onClick={toggleGuests}
                 >
                   Add guests
                 </p>
@@ -225,15 +272,15 @@ function Navbar() {
                   className={`mx-md-3 mx-1 text-dark fcw-normal menuitem text-truncate ${
                     subcoreStay ? "active" : ""
                   }`}
-                  onClick={toggleExperience}
+                  onClick={toggleStay}
                 >
-                  Stays 
+                  Stays
                 </p>
                 <p
                   className={`mx-md-3 mx-1 text-dark fcw-normal menuitem text-truncate ${
                     subcoreExperience ? "active" : ""
                   }`}
-                onClick={toggleExperience}
+                  onClick={toggleExperience}
                 >
                   Experiences
                 </p>
@@ -263,7 +310,6 @@ function Navbar() {
                   >
                     <FaCircleUser height={"auto"} />
                   </span>
-                  
                 </Button>
               </div>
             </div>
@@ -275,7 +321,7 @@ function Navbar() {
         {navbar ? null : (
             <Row className="custom-main-border rounded-pill mb-2 d-flex justify-content-center align-items-center m-auto custom-width-100 main-submenu">
 
-            <Nav tabs className="border-0 pe-0">
+            <Nav tabs className="border-0 pe-0 ">
               <NavItem className="w-35">
                 <NavLink className={`p-0 ${activeTab == '1' ? 'active' : ''}`} onClick={() => setActiveTab('1')}>
                   <Row className="d-flex align-items-center py-2 px-3">
@@ -284,9 +330,7 @@ function Navbar() {
                       <Input type="text" bsSize="sm" className="bg-transparent border-0 p-0 text-secondary " placeholder="Search destinations" value={inputvalue} onChange={handleInputCountries} />
                     </Col>
                     {activeTab == '1' && (
-                      <Col xs={2} className={`text-end ${ crossbtn === true ? "d-block" : "d-none" }`} 
-                      onClick={handleClearField}
-                      >
+                      <Col xs={2} className={`text-end ${ crossBtn === true ? "d-block" : "d-none" }`} onClick={handleClearField}>
                         <FaXmark className="bg-light-sec custom-w-h rounded-pill text-dark p-1" />
                     </Col>
                       )}
@@ -356,7 +400,6 @@ function Navbar() {
             <TabContent
               activeTab={activeTab}
               className="d-flex justify-content-center align-items-center" >
-
               {showTab1 === true || showTab2 === false ? (
                 <TabPane tabId="1" className="custom-tab1">
                       <Card
@@ -437,11 +480,11 @@ function Navbar() {
                       className="bg-white"
                     >
                       <DateRangePicker
-                        onChange={(item) => dispatch(DatePicker([item.selection]))}
+                        onChange={(item) => setState([item.selection])}
                         showSelectionPreview={true}
                         moveRangeOnFirstSelection={false}
                         months={2}
-                        ranges={datepicker}
+                        ranges={state}
                         direction="horizontal"
                       />
                     </Card>
@@ -454,11 +497,11 @@ function Navbar() {
                     body
                     className="bg-white">
                     <DateRangePicker
-                      onChange={(item) => dispatch(DatePicker([item.selection]))}
+                      onChange={(item) => setState([item.selection])}
                       showSelectionPreview={true}
                       moveRangeOnFirstSelection={false}
                       months={2}
-                      ranges={datepicker}
+                      ranges={state}
                       direction="horizontal"
                     />
                   </Card>
@@ -486,7 +529,7 @@ function Navbar() {
                                   ? "disabled"
                                   : ""
                               }`}
-                              onClick={() => dispatch(DecrementAdultCounter(adultcounter))}
+                              onClick={AdultDecrement}
                             />
                           </Button>
                           <p
@@ -504,7 +547,7 @@ function Navbar() {
                               className={`rounded-pill border cst-brd text-dark p-2 custom-icon ${
                                 adultcounter >= 16 ? "disabled" : ""
                               }`}
-                              onClick={() => dispatch(IncrementAdultCounter(adultcounter))}
+                              onClick={AdultIncrement}
                             />
                           </Button>
                         </div>
@@ -528,7 +571,7 @@ function Navbar() {
                                   ? "disabled"
                                   : ""
                               }`}
-                              onClick={() => dispatch(DecrementChildCounter(childcounter))}
+                              onClick={ChildDecrement}
                             />
                           </Button>
                           <p
@@ -547,7 +590,7 @@ function Navbar() {
                                   ? "disabled"
                                   : ""
                               }`}
-                              onClick={() => dispatch(IncrementChildCounter(childcounter))}
+                              onClick={ChildIncrement}
                             />
                           </Button>
                         </div>
@@ -569,7 +612,7 @@ function Navbar() {
                               className={`rounded-pill border cst-brd text-dark p-2 custom-icon ${
                                 infantcounter <= 0 ? "disabled" : ""
                               }`}
-                              onClick={() => dispatch(DecrementInfantCounter(infantcounter))}
+                              onClick={InfantDecrement}
                             />
                           </Button>
                           <p
@@ -586,7 +629,7 @@ function Navbar() {
                               className={`rounded-pill border cst-brd text-dark p-2 custom-icon ${
                                 infantcounter >= 5 ? "disabled" : ""
                               }`}
-                              onClick={() => dispatch(IncrementInfantCounter(infantcounter))}
+                              onClick={InfantIncrement}
                             />
                           </Button>
                         </div>
@@ -608,7 +651,7 @@ function Navbar() {
                               className={`rounded-pill border cst-brd text-dark p-2 custom-icon ${
                                 petcounter <= 0 ? "disabled" : ""
                               }`}
-                              onClick={() => dispatch(DecrementPetCounter(petcounter))}
+                              onClick={PetDecrement}
                             />
                           </Button>
                           <p
@@ -625,7 +668,7 @@ function Navbar() {
                               className={`rounded-pill border cst-brd text-dark p-2 custom-icon ${
                                 petcounter >= 5 ? "disabled" : ""
                               }`}
-                              onClick={() => dispatch(IncrementPetCounter(petcounter))}
+                              onClick={PetIncrement}
                             />
                           </Button>
                         </div>
@@ -641,15 +684,33 @@ function Navbar() {
 
       </div>
       
-    <MobileNavbar 
-        inputvalue={inputvalue}
-        handleInputCountries={handleInputCountries} 
-        handleSelectedLocation={handleSelectedLocation}
-        handleSelectInputCountry={handleSelectInputCountry}
-        setInputValue={setInputValue}
-    />
+      <MobileNavbar
+                     state={state}
+                     setState={setState}
+                     disableAdult={disableAdult}
+                     setDisableAdult={setDisableAdult}
+                     adultcounter={adultcounter}
+                     AdultIncrement={AdultIncrement}
+                     AdultDecrement={AdultDecrement}
+                     childcounter={childcounter}
+                     ChildIncrement={ChildIncrement}
+                     ChildDecrement={ChildDecrement}
+                     infantcounter={infantcounter}
+                     InfantIncrement={InfantIncrement}
+                     InfantDecrement={InfantDecrement}
+                     petcounter={petcounter}
+                     PetIncrement={PetIncrement}
+                     PetDecrement={PetDecrement}
+                     handleSelectedLocation={handleSelectedLocation}
+                     inputvalue={inputvalue}
+                     handleInputCountries={handleInputCountries}
+                     location={location}
+                     filtercountries={filtercountries}
+                     handleSelectInputCountry={handleSelectInputCountry}
+                     setInputValue={setInputValue}
+          />
 
-      <Home navbar={navbar}/> 
+      <Home navbar={navbar}/>
 
       </div>
 

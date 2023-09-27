@@ -3,38 +3,31 @@ import { DateRangePicker } from "react-date-range";
 import { FaMinus, FaPlus, FaSistrix, FaSliders, FaXmark } from "react-icons/fa6";
 import { Button, Card, Col, Container, Nav, NavItem, NavLink, Row, TabContent, TabPane } from "reactstrap";
 import { SelectedLocation } from "./SelectedLocation";
-import location from "../assests/location-icon.png";
-import { useDispatch, useSelector } from "react-redux";
-import { 
-  DatePicker,
-  DecrementAdultCounter,
-  DecrementChildCounter, 
-  DecrementInfantCounter, 
-  DecrementPetCounter, 
-  IncrementAdultCounter, 
-  IncrementChildCounter, 
-  IncrementInfantCounter, 
-  IncrementPetCounter,
-} from "../store/actions/Actions";
+
 function MobileNavbar({
-  inputvalue,
-  handleInputCountries, 
+  state,
+  setState,
+  disableAdult,
+  adultcounter,
+  AdultIncrement,
+  AdultDecrement,
+  childcounter,
+  ChildIncrement,
+  ChildDecrement,
+  infantcounter,
+  InfantIncrement,
+  InfantDecrement,
+  petcounter,
+  PetIncrement,
+  PetDecrement,
   handleSelectedLocation,
+  inputvalue,
+  handleInputCountries,
+  filtercountries,
   handleSelectInputCountry,
-  setInputValue,}) {
-
-  const dispatch = useDispatch();
-
-  const {
-    adultcounter,
-    childcounter,
-    infantcounter,
-    petcounter,
-    disableAdult,
-    datepicker,
-    filtercountries,
-  }  = useSelector((state) => state.increamentReducer);
-
+  setInputValue,
+  location,
+}) {
   const [MobileActiveTab, setMobileActiveTab] = useState("1");
 
   const [MobileSubActiveTab, setMobileSubActiveTab] = useState("1");
@@ -214,7 +207,7 @@ function MobileNavbar({
                             </Col>
 
                             {/* Select CountryMap  --Start */}
-                            {inputvalue === "" && (
+                            {inputvalue == "" && (
                               <Row className="flex-nowrap align-items-center overflow-auto my-4">
                                 {SelectedLocation?.map((item, id) => {
                                   return (
@@ -330,13 +323,15 @@ function MobileNavbar({
                                 style={{ width: "100%", height: "auto" }}
                               >
                                 <DateRangePicker
-                                    onChange={(item) => dispatch(DatePicker([item.selection]))}
-                                    showSelectionPreview={true}
-                                    moveRangeOnFirstSelection={false}
-                                    months={2}
-                                    ranges={datepicker}
-                                    direction="horizontal"
-                                  />
+                                  onChange={(item) =>
+                                    setState([item.selection])
+                                  }
+                                  showSelectionPreview={true}
+                                  moveRangeOnFirstSelection={false}
+                                  months={2}
+                                  ranges={state}
+                                  direction="horizontal"
+                                />
                               </Card>
                             </div>
                           </Row>
@@ -397,7 +392,7 @@ function MobileNavbar({
                                           ? "disabled"
                                           : ""
                                       }`}
-                                      onClick={() => dispatch(DecrementAdultCounter(adultcounter))}
+                                      onClick={AdultDecrement}
                                     />
                                   </Button>
                                   <p
@@ -415,7 +410,7 @@ function MobileNavbar({
                                       className={`rounded-pill border cst-brd text-dark p-2 custom-icon ${
                                         adultcounter >= 16 ? "disabled" : ""
                                       }`}
-                                      onClick={() => dispatch(IncrementAdultCounter(adultcounter))}
+                                      onClick={AdultIncrement}
                                     />
                                   </Button>
                                 </div>
@@ -441,7 +436,7 @@ function MobileNavbar({
                                           ? "disabled"
                                           : ""
                                       }`}
-                                      onClick={() => dispatch(DecrementChildCounter(childcounter))}
+                                      onClick={ChildDecrement}
                                     />
                                   </Button>
                                   <p
@@ -462,7 +457,7 @@ function MobileNavbar({
                                           ? "disabled"
                                           : ""
                                       }`}
-                                      onClick={() => dispatch(IncrementChildCounter(childcounter))}
+                                      onClick={ChildIncrement}
                                     />
                                   </Button>
                                 </div>
@@ -484,7 +479,7 @@ function MobileNavbar({
                                       className={`rounded-pill border cst-brd text-dark p-2 custom-icon ${
                                         infantcounter <= 0 ? "disabled" : ""
                                       }`}
-                                      onClick={() => dispatch(DecrementInfantCounter(infantcounter))}
+                                      onClick={InfantDecrement}
                                     />
                                   </Button>
                                   <p
@@ -501,7 +496,7 @@ function MobileNavbar({
                                       className={`rounded-pill border cst-brd text-dark p-2 custom-icon ${
                                         infantcounter >= 5 ? "disabled" : ""
                                       }`}
-                                      onClick={() => dispatch(IncrementInfantCounter(infantcounter))}
+                                      onClick={InfantIncrement}
                                     />
                                   </Button>
                                 </div>
@@ -523,7 +518,7 @@ function MobileNavbar({
                                       className={`rounded-pill border cst-brd text-dark p-2 custom-icon ${
                                         petcounter <= 0 ? "disabled" : ""
                                       }`}
-                                      onClick={() => dispatch(DecrementPetCounter(petcounter))}
+                                      onClick={PetDecrement}
                                     />
                                   </Button>
                                   <p
@@ -540,7 +535,7 @@ function MobileNavbar({
                                       className={`rounded-pill border cst-brd text-dark p-2 custom-icon ${
                                         petcounter >= 5 ? "disabled" : ""
                                       }`}
-                                      onClick={() => dispatch(IncrementPetCounter(petcounter))}
+                                      onClick={PetIncrement}
                                     />
                                   </Button>
                                 </div>
