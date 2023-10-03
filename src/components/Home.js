@@ -13,7 +13,7 @@ import 'swiper/css/pagination';
 // import required modules
 import { Navigation, Pagination, Mousewheel, Keyboard } from 'swiper/modules';
 
-function Home({navbar}) {
+function Home({navbar, searchData}) {
 
   const [HomeCards] = useState(HomeCardList);
   const [numberOfCardShow, setNumberOfCardsShow] = useState(8);
@@ -21,19 +21,24 @@ function Home({navbar}) {
 
   const showmore = () => {
 
-    if(numberOfCardShow + 8){
+    if(numberOfCardShow + 8 <= HomeCards.length){
       setNumberOfCardsShow(numberOfCardShow + 8 );
     }
     else{
-      setNumberOfCardsShow(numberOfCardShow.length);
+      setNumberOfCardsShow(HomeCards.length);
       setShowMoreBtn(true);
     }
   }
 
   const itemsToShow = useMemo(() => {
-      return (
-        HomeCards.slice(0, numberOfCardShow)
-        )}, [HomeCards, numberOfCardShow])
+    // console.log('filter data', searchData);
+    if(searchData){
+      return HomeCards.filter((item) => item.PlaceName.split(', ')[1]?.toLowerCase()===searchData?.toLowerCase());
+    }
+    else{
+      return HomeCards.slice(0, numberOfCardShow);
+    }
+  }, [HomeCards, numberOfCardShow, searchData]);
 
   return (
     <>

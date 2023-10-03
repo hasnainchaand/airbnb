@@ -34,6 +34,13 @@ export const DatePicker = (SelectedDate) => async (dispatch) => {
     })
 }
 
+export const CloseSubMTab = (value) => async (dispatch) => {
+  dispatch({
+    type: 'MOBILE_SUB_TAB',
+    payload: value,
+  })
+}
+
 
 export const IncrementAdultCounter = (value) => async (dispatch) => {
   dispatch({

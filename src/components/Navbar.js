@@ -4,7 +4,7 @@ import { TabContent, TabPane, Nav, NavItem, NavLink } from "reactstrap";
 import { FaAirbnb, FaBars, FaCircleUser, FaGlobe, FaMinus, FaPlus, FaSistrix, FaXmark } from "react-icons/fa6";
 import { DateRangePicker } from "react-date-range";
 import location from "../assests/location-icon.png";
-import { countriesList } from "./CountriesList";
+import CountriesList from './CountriesList.json';
 import { SelectedLocation } from "./SelectedLocation";
 import MobileNavbar from '../components/MobileNavbar';
 import Home from "./Home";
@@ -23,6 +23,7 @@ import {
   ShowTab2,
   FilterCountries,
   CrossBtn,
+  CloseSubMTab,
 } from "../store/actions/Actions";
 
 function Navbar() {
@@ -41,11 +42,10 @@ function Navbar() {
   }  = useSelector((state) => state.increamentReducer);
 
   const [inputvalue, setInputValue] = useState("");
-  // const [crossBtn, setCrossBtn] = useState(false);
 
   const filterCountryName = (input) => {
-    const filtered = countriesList.filter((country) =>
-      country.countryName.toLowerCase().includes(input.toLowerCase())
+    const filtered = CountriesList.filter((country) =>
+      country.name.toLowerCase().includes(input.toLowerCase())
     );
     return filtered;
   };
@@ -69,21 +69,30 @@ function Navbar() {
       dispatch(ShowTab1(false));
       dispatch(ShowTab2(false));
       dispatch(FilterCountries([]));
-      dispatch(CrossBtn(false))
+      dispatch(CrossBtn(false));
     }
   };
+  
+  const [searchData, setSearchData] = useState('');
+
   const handleSelectInputCountry = (country) => {
     dispatch(FilterCountries([country]));
     dispatch(ShowTab2(true));
     setActiveTab("2");
-    dispatch(CrossBtn(false))
+    dispatch(CrossBtn(false));
+    dispatch(CloseSubMTab(false));
   };
+
+  const handleSearchClick = (value) => {
+    setSearchData(value);
+    setNavbar(true);
+  }
 
   const handleClearField = () => {
     setInputValue("");
     dispatch(ShowTab1(true));
     dispatch(ShowTab2(false));
-    dispatch(CrossBtn(false))
+    dispatch(CrossBtn(false));
   };
 
   const handleSelectedLocation = (target) => {
@@ -93,9 +102,10 @@ function Navbar() {
       dispatch(CrossBtn(true))
       setActiveTab("2");
       dispatch(CrossBtn(false))
+      dispatch(CloseSubMTab(false));
     } else {
       setInputValue("");
-      dispatch(CrossBtn(false))
+      dispatch(CrossBtn(false));
     }
   };
 
@@ -128,7 +138,7 @@ function Navbar() {
       }
     } else {
       setActiveTab("");
-      dispatch(CrossBtn(true))
+      dispatch(CrossBtn(true));
     }
   };
 
@@ -225,7 +235,7 @@ function Navbar() {
                   className={`mx-md-3 mx-1 text-dark fcw-normal menuitem text-truncate ${
                     subcoreStay ? "active" : ""
                   }`}
-                  onClick={toggleExperience}
+                  onClick={toggleStay}
                 >
                   Stays 
                 </p>
@@ -338,7 +348,7 @@ function Navbar() {
                       </p>
                     </Col>
                     <Col xs={6} className="text-end">
-                      <Button className="bg-custom-primary rounded-pill border-0 text-white px-4 py-2 text-truncate">
+                      <Button className="bg-custom-primary rounded-pill border-0 text-white px-4 py-2 text-truncate" onClick={()=>handleSearchClick(inputvalue)}>
                         <FaSistrix height={15} width={15} className="me-2" />
                         Search
                       </Button>
@@ -373,8 +383,7 @@ function Navbar() {
                                 <a
                                   className=""
                                   href="#"
-                                  onClick={() => handleSelectedLocation(item)}
-                                >
+                                  onClick={() => handleSelectedLocation(item)}>
                                   <img
                                     src={item.image}
                                     className="w-100 custom-img-brd"
@@ -406,7 +415,7 @@ function Navbar() {
                               className="d-flex justify-content-center align-items-center custom-SubTab py-2"
                               onClick={() => {
                                 handleSelectInputCountry(country);
-                                setInputValue(country.countryName);
+                                setInputValue(country.name);
                               }}
                             >
                               <Col xs={2} className="text-end">
@@ -417,7 +426,7 @@ function Navbar() {
                               </Col>
                               <Col xs={10} className="fs-6 px-3 text-dark">
                                 <p className="mb-0 fs-6 text-dark">
-                                  {country.countryName}
+                                  {country.name}
                                 </p>
                               </Col>
                             </a>
@@ -637,7 +646,7 @@ function Navbar() {
             </TabContent>
         )}
 
-        {/* Tab - -End */}
+        {/* Tab -- End */}
 
       </div>
       
@@ -647,9 +656,14 @@ function Navbar() {
         handleSelectedLocation={handleSelectedLocation}
         handleSelectInputCountry={handleSelectInputCountry}
         setInputValue={setInputValue}
+        handleSearchClick={handleSearchClick}
+        handleClearField={handleClearField}
     />
 
-      <Home navbar={navbar}/> 
+      <Home 
+      navbar={navbar} 
+      searchData={searchData}
+      />
 
       </div>
 

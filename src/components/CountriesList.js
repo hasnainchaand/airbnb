@@ -692,7 +692,7 @@ export const countriesList = [{
           nativeCountryName: 'Polska',
         },
         {
-          countryName: 'Portugual',
+          countryName: 'Portugal',
           language: 'Portuguese',
           nativeCountryName: 'Portugal',
         },
@@ -777,4 +777,4 @@ export const countriesList = [{
           nativeCountryName: 'Singapore, Singapura, 新加坡, சிங்கப்பூர்',
         },
        
-      ];
+];

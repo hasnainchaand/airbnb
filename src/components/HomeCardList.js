@@ -345,7 +345,7 @@ export const HomeCardList = [
         images:[
             slider15_Img1,slider15_Img2,slider15_Img3,slider15_Img4,slider15_Img5
         ],
-        PlaceName: 'Sialkot, pakistan',
+        PlaceName: 'Sialkot, Pakistan',
         Rating: '4.94',
         AwayInKilometers: '890 kilometers away',
         MonthStart: 'Oct',

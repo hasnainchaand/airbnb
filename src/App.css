@@ -351,6 +351,16 @@ a{
   font-size: 13px;
   font-weight: 600;
 }
+.mobile-navbar-bottom{
+  position: fixed;
+  bottom: 0;
+  box-shadow: 0px 0px 10px rgba(0,0,0,0.3);
+  z-index: 20;
+}
+.mobile-bottom-rounded{
+  padding: 10px 20px 10px 10px;
+  border-radius: 6px;
+}
 /* Mobile Navbar -- End */
 
 /* Swiper Slider */

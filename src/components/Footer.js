@@ -10,7 +10,7 @@ function Footer() {
   return (
     <>
 
-    <Container className="bg-light py-4" fluid>
+    <Container className="bg-light pt-5" fluid>
 
       <Row className="border-bottom mx-md-3 mx-1">
           <Col>

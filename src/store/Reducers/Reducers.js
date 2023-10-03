@@ -9,8 +9,10 @@ const initialData = {
 
   showTab1: true,
   showTab2: false,
-  filtercountries: '',
+  filtercountries: [],
   crossbtn: false,
+
+  closeSubMTab: true,
 
   datepicker: [{
     startDate: new Date(),
@@ -51,6 +53,13 @@ const mainReducer = (state = initialData, action) => {
         ...state, 
         datepicker: action.payload,
       }
+
+      case 'MOBILE_SUB_TAB':
+        return {
+          ...state,
+          closeSubMTab: action.payload,
+        }
+
 
     // Counter --Start
 
