@@ -1,5 +1,3 @@
-import { addDays } from "date-fns";
-
 const initialData = {
   disableAdult: false,
   adultcounter: 0,
@@ -15,10 +13,11 @@ const initialData = {
   closeSubMTab: true,
 
   datepicker: [{
-    startDate: new Date(),
-    endDate: addDays(new Date(), 2),
+    startDate: '',
+    endDate: '',
     key: "selection",
   }]
+
 };
 
 const mainReducer = (state = initialData, action) => {

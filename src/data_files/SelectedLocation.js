@@ -1,9 +1,9 @@
-import flexible from "../assests/flexible.jpg";
-import Europe from "../assests/europe.jpg";
-import Turkey from "../assests/turkey.jpg";
-import Middle_East from "../assests/middle-east.jpg";
-import United_Kingdom from "../assests/united-kingdom.jpg";
-import United_State from "../assests/united-states.jpg";
+import flexible from "../assests/main/flexible.jpg";
+import Europe from "../assests/main/europe.jpg";
+import Turkey from "../assests/main/turkey.jpg";
+import Middle_East from "../assests/main/middle-east.jpg";
+import United_Kingdom from "../assests/main/united-kingdom.jpg";
+import United_State from "../assests/main/united-states.jpg";
 
 export const SelectedLocation = [
     {

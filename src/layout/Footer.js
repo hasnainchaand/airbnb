@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { CardText, Col, Container, ListGroup, ListGroupItem, Nav, NavItem, NavLink, Row, TabContent, TabPane } from "reactstrap";
-import { Arts_culture, PopularTab, subMenuAirBnb, subMenuHosting, subMenuSuppport } from "./FooterTabContent";
-import { FooterTabs } from "./FooterTabContent";
+import { Arts_culture, PopularTab, subMenuAirBnb, subMenuHosting, subMenuSuppport,FooterTabs  } from "../data_files/FooterTabContent";
 import { FaGlobe, FaSquareFacebook, FaSquareInstagram, FaSquareTwitter } from "react-icons/fa6";
 
 function Footer() {
@@ -145,7 +144,7 @@ function Footer() {
 
       {/* Footer Timeline-- Start */}
 
-      <Row className="mx-md-3 mx-1 my-2">
+      <Row className={`mx-md-3 mx-1 my-2`}>
         <div className="d-flex flex-wrap justify-content-center align-items-center ">
           <Col lg={8} sm={12} className="my-lg-2 bg-light text-lg-start text-center order-lg-1 order-2">
                 <div className="d-flex flex-lg-row flex-column">

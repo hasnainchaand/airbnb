@@ -19,11 +19,10 @@ import {
   TabContent,
   TabPane,
 } from "reactstrap";
-import { SelectedLocation } from "./SelectedLocation";
-import location from "../assests/location-icon.png";
+import { SelectedLocation } from "../data_files/SelectedLocation";
+import location from "../assests/filter_icons/location-icon.png";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  DatePicker,
   DecrementAdultCounter,
   DecrementChildCounter,
   DecrementInfantCounter,
@@ -43,7 +42,7 @@ function MobileNavbar({
   setInputValue,
   handleSearchClick,
   handleClearField,
-  navbar,
+  handleSelectedDateRange,
 }) {
   const dispatch = useDispatch();
 
@@ -57,6 +56,15 @@ function MobileNavbar({
     filtercountries,
     closeSubMTab,
   } = useSelector((state) => state.increamentReducer);
+
+  // Date Picker
+  const initialState = [
+    {
+      startDate: new Date(),
+      endDate: new Date(),
+      key: "selection",
+    },
+  ];
 
   const [MobileActiveTab, setMobileActiveTab] = useState("1");
 
@@ -139,7 +147,7 @@ function MobileNavbar({
             </Col>
           </Row>
         </Container>
-      )} 
+      )}
       {XCloseNavbar && (
         <>
           <Container
@@ -356,9 +364,11 @@ function MobileNavbar({
                                   </p>
                                 </div>
                                 <div className="">
-                                  <p className="mb-0 fcw-medium text-dark">
-                                    Add dates
-                                  </p>
+                                  {datepicker[0].startDate ? (
+                                    <span className="fcw-medium text-dark">{datepicker[0].startDate.toLocaleDateString()} - {datepicker[0].endDate.toLocaleDateString()}</span>
+                                  ) : (
+                                    <p className="mb-0 fcw-medium text-dark">Add dates</p>
+                                  )}
                                 </div>
                               </div>
                             </Col>
@@ -377,13 +387,17 @@ function MobileNavbar({
                                   style={{ width: "100%", height: "auto" }}
                                 >
                                   <DateRangePicker
-                                    onChange={(item) =>
-                                      dispatch(DatePicker([item.selection]))
-                                    }
+                                    onChange={handleSelectedDateRange}
                                     showSelectionPreview={true}
                                     moveRangeOnFirstSelection={false}
                                     months={2}
-                                    ranges={datepicker}
+                                    ranges={
+                                      datepicker[0].startDate === "" &&
+                                      datepicker[0].endDate === ""
+                                        ? initialState
+                                        : datepicker
+                                    }
+                                    minDate={new Date()}
                                     direction="horizontal"
                                   />
                                 </Card>
@@ -650,7 +664,7 @@ function MobileNavbar({
               </TabContent>
             </Row>
           </Container>
-          
+
           <Container
             className="bg-light py-1 d-md-none d-block mobile-navbar-bottom"
             fluid
@@ -670,7 +684,8 @@ function MobileNavbar({
                         handleSearchClick(inputvalue);
                         setXCloseNavbar(false);
                         setMobileSubNavbar(true);
-                        }}>
+                      }}
+                    >
                       <FaSistrix
                         className="mx-2"
                         style={{ fontSize: "20px" }}
@@ -681,7 +696,6 @@ function MobileNavbar({
                 </Row>
               </Col>
             </Row>
-
           </Container>
         </>
       )}
